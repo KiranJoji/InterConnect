@@ -2,9 +2,15 @@ import { doc, onSnapshot } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
+import { useNavigate, Link } from "react-router-dom";
 import { db } from "../firebase";
 
+
 const Chats = () => {
+
+  // const gotoSearch = () => { navigate("/Finder"); }
+  // const navigate = useNavigate();
+
   const [chats, setChats] = useState([]);
 
   const { currentUser } = useContext(AuthContext);
@@ -43,8 +49,9 @@ const Chats = () => {
           </div>
         </div>
       ))}
-      <div class="centerRoomFind">
-        <button class="roomFind">Find More Roommates</button>
+      <div className="centerRoomFind">
+        <button className="roomFind">Connect</button>
+        <Link to="/register">Find</Link>
       </div>
     </div>
   );

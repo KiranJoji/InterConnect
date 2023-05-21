@@ -79,16 +79,16 @@ const Register = () => {
           <input required type="email" placeholder="email" />
           <input required type="password" placeholder="password" />
           <input required type="number" placeholder="age" />
-          <label class="slabel" for="gender">Choose your Gender:</label>
-          <div class="selectContain">
+          <label className="slabel" for="gender">Choose your Gender:</label>
+          <div className="selectContain">
             <select required id="gender" name="gender">
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
             </select>
           </div>
-          <label class="slabel" for="language">Choose your Language:</label>
-          <div class="selectContain">
+          <label className="slabel" for="language">Choose your Language:</label>
+          <div className="selectContain">
             <select required id="language" name="language">
               <option value="spanish">Spanish</option>
               <option value="chinese">Chinese</option>
@@ -97,8 +97,8 @@ const Register = () => {
               <option value="serbian">Serbian</option>
             </select>
           </div>
-          <label class="slabel" for="year">Choose your School Year:</label>
-          <div class="selectContain">
+          <label className="slabel" for="year">Choose your School Year:</label>
+          <div className="selectContain">
             <select required id="year" name="year">
               <option value="freshman">Freshman</option>
               <option value="sophomore">Sophomore</option>
@@ -107,8 +107,8 @@ const Register = () => {
               <option value="graduate">Graduate</option>
             </select>
           </div>
-          <label class="slabel" for="english">Do you know English?</label>
-          <div class="selectContain">
+          <label className="slabel" for="english">Do you know English?</label>
+          <div className="selectContain">
             <select required id="english" name="english">
               <option value="yes">No</option>
               <option value="no">Yes</option>
