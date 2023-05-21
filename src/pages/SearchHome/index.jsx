@@ -1,12 +1,75 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import EmptyView from '../../components/common/EmptyView';
 import FilterPanel from '../../components/Home/FilterPanel';
 import List from '../../components/Home/List';
 import SearchBar from '../../components/Home/SearchBar';
-import { dataList } from '../../constants';
 import './styles.css';
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  setDoc,
+  doc,
+  updateDoc,
+  serverTimestamp,
+  getDoc,
+  firebase
+} from "firebase/firestore";
+import { db } from "../../firebase";
+
+
 
 const SearchHome = () => {
+  
+  const [user, setUser] = useState(null);
+
+  const isComponentMounted = useRef();
+
+  useEffect(function () {
+    isComponentMounted.current = true;
+    return function () {
+      isComponentMounted.current = false;
+    };
+  }, []);
+
+  const getPeople = async () => {
+    
+    let data = [];
+
+    const q = query(
+      collection(db, "users"),
+    );
+
+    try {
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        setUser(doc.data());
+        data.push(user);
+      });
+    } catch (err) {
+      console.log("afafqd");
+    }
+    return data;
+  };
+
+    // const data = querySnapshot.docs.map((d) => ({ 
+    //   uid: d.id,
+    //   displayName: d.displayName,
+    //   english: d.english,
+    //   language: d.language,
+    //   gender: d.gender,
+    //   year: d.year,
+    //   age: d.age,
+    //   photoURL: d.photoURL,
+    // }));
+
+  // let dataList = [];
+  // if(isComponentMounted.current) {
+  //   dataList = getPeople();
+  // }
+  //const dataList = [];
+
   const [selectedAge, setSelectedAge] = useState( [16, 80]);
 
   const [englishes, setEnglishes] = useState([
@@ -36,7 +99,7 @@ const SearchHome = () => {
     { id: 5, checked: false, label: 'Graduate' },
   ]);
 
-  const [list, setList] = useState(dataList);
+  const [list, setList] = useState(getPeople());
   const [resultsFound, setResultsFound] = useState(true);
   const [searchInput, setSearchInput] = useState('');
 
@@ -77,7 +140,7 @@ const SearchHome = () => {
   };
 
   const applyFilters = () => {
-    let updatedList = dataList;
+    let updatedList = getPeople;
 
     // English Filter
     const englishesChecked = englishes

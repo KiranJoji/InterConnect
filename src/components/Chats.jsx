@@ -2,7 +2,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { db } from "../firebase";
 
 
@@ -50,8 +50,8 @@ const Chats = () => {
         </div>
       ))}
       <div className="centerRoomFind">
-        <button className="roomFind">Connect</button>
-        <Link to="/register">Find</Link>
+        <button className="roomFind" ><Link to="/searchhome">Find New Friends!</Link></button>
+        
       </div>
     </div>
   );

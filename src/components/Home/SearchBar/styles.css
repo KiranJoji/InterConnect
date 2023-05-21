@@ -1,5 +1,6 @@
 .searchBar-wrap {
   display: flex;
+  width: 100%;
   align-items: center;
   border-bottom: 1px solid rgba(0, 0, 0, 0.26);
   padding: 1.5rem 1rem;
@@ -7,6 +8,7 @@
 .searchBar-icon {
   color: rgba(0, 0, 0, 0.26);
   margin-right: 2rem;
+  margin-left: 2rem;
 }
 
 .searchBar-wrap input {

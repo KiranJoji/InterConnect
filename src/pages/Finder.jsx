@@ -3,8 +3,8 @@ import SearchHome from './SearchHome/index'
 
 const Finder = () => {
   return (
-    <div className='home'>
-      <div className="container">
+    <div className='f'>
+      <div className="ff">
         <SearchHome />
       </div>
     </div>
