@@ -14,61 +14,88 @@ import {
   updateDoc,
   serverTimestamp,
   getDoc,
-  firebase
 } from "firebase/firestore";
 import { db } from "../../firebase";
-
+import { useNavigate } from "react-router-dom";
 
 
 const SearchHome = () => {
-  
-  const [user, setUser] = useState(null);
 
-  const isComponentMounted = useRef();
+  const navigate = useNavigate();
+  const chatFriends = () => {
+    navigate("/");
+  }
 
-  useEffect(function () {
-    isComponentMounted.current = true;
-    return function () {
-      isComponentMounted.current = false;
-    };
-  }, []);
+  class User {
+      constructor (displayName, english, language, gender, year, age, photoURL) {
+            this.displayName = displayName;
+            this.english = english;
+            this.language = language;
+            this.gender = gender;
+            this.year = year;
+            this.age = age;
+            this.photoURL = photoURL;
+      }
+      toString() {
+          return this.displayName + ' ' + this.english + ' ' + this.language + ' ' + this.gender + ' ' + this.year + ' ' + this.age + ' ' + this.photoURL;
+      }
+  }
 
-  const getPeople = async () => {
-    
-    let data = [];
-
-    const q = query(
-      collection(db, "users"),
-    );
-
-    try {
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        setUser(doc.data());
-        data.push(user);
-      });
-    } catch (err) {
-      console.log("afafqd");
+  // Firestore data converter
+  const userConverter = {
+    toFirestore: (User) => {
+        return {
+            displayName: User.displayName,
+            english: User.english,
+            language: User.language,
+            gender: User.gender,
+            year: User.year,
+            age: User.age,
+            photoURL: User.photoURL
+        };
+    },
+    fromFirestore: (snapshot, options) => {
+        const data = snapshot.data(options);
+        return new User(data.displayName, data.english, data.language, data.gender, data.year, data.age, data.photoURL);
     }
-    return data;
   };
 
-    // const data = querySnapshot.docs.map((d) => ({ 
-    //   uid: d.id,
-    //   displayName: d.displayName,
-    //   english: d.english,
-    //   language: d.language,
-    //   gender: d.gender,
-    //   year: d.year,
-    //   age: d.age,
-    //   photoURL: d.photoURL,
-    // }));
+  let [dataList, setData] = useState([]);
 
-  // let dataList = [];
-  // if(isComponentMounted.current) {
-  //   dataList = getPeople();
-  // }
-  //const dataList = [];
+  useEffect(() => {
+      fetchData();
+  }, [])
+
+  const fetchData = async () => {
+    let dataList = [];
+
+    const usersRef = collection(db, 'users').withConverter(userConverter);
+    const snapshot = await getDocs(usersRef);
+    snapshot.forEach(doc => {
+      console.log(doc.data());
+      if (doc.exists()) {
+        const user = doc.data();
+        dataList.push({
+          displayName: user.displayName,
+          english: user.english,
+          language: user.language,
+          gender: user.gender,
+          year: user.year,
+          age: user.age,
+          photoURL: user.photoURL
+        });
+        console.log(user.toString());
+      } else {
+        console.log("No such document!");
+      }
+    });
+    
+    console.log(dataList);
+    setData(dataList);
+  };
+
+  console.log(dataList);
+  console.log("dataList");
 
   const [selectedAge, setSelectedAge] = useState( [16, 80]);
 
@@ -99,7 +126,7 @@ const SearchHome = () => {
     { id: 5, checked: false, label: 'Graduate' },
   ]);
 
-  const [list, setList] = useState(getPeople());
+  const [list, setList] = useState(dataList);
   const [resultsFound, setResultsFound] = useState(true);
   const [searchInput, setSearchInput] = useState('');
 
@@ -140,7 +167,7 @@ const SearchHome = () => {
   };
 
   const applyFilters = () => {
-    let updatedList = getPeople;
+    let updatedList = dataList;
 
     // English Filter
     const englishesChecked = englishes
@@ -218,6 +245,7 @@ const SearchHome = () => {
       <SearchBar
         value={searchInput}
         changeInput={(e) => setSearchInput(e.target.value)}
+        chatFriends = {chatFriends}
       />
       <div className='home_panelList-wrap'>
         {/* Filter Panel */}

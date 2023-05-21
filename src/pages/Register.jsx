@@ -41,6 +41,7 @@ const Register = () => {
               photoURL: downloadURL,
             });
             //create user on firestore
+            console.log("appple");
             await setDoc(doc(db, "users", res.user.uid), {
               uid: res.user.uid,
               age,
@@ -50,7 +51,7 @@ const Register = () => {
               gender,
               language,
               photoURL: downloadURL,
-              year,
+              year
             });
 
             //create empty user chats on firestore
@@ -110,8 +111,8 @@ const Register = () => {
           <label className="slabel" for="english">Do you know English?</label>
           <div className="selectContain">
             <select required id="english" name="english">
-              <option value="yes">No</option>
-              <option value="no">Yes</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
             </select>
           </div>
           <input required style={{ display: "none" }} type="file" id="file" />

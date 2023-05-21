@@ -2,7 +2,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 
 
@@ -34,6 +34,11 @@ const Chats = () => {
     dispatch({ type: "CHANGE_USER", payload: u });
   };
 
+  const navigate = useNavigate();
+  const findFriends = () => {
+    navigate("/searchhome");
+  }
+
   return (
     <div className="chats">
       {Object.entries(chats)?.sort((a,b)=>b[1].date - a[1].date).map((chat) => (
@@ -50,7 +55,7 @@ const Chats = () => {
         </div>
       ))}
       <div className="centerRoomFind">
-        <button className="roomFind" ><Link to="/searchhome">Find New Friends!</Link></button>
+        <button className="roomFind"onClick={ findFriends }>Find New Friends!</button>
         
       </div>
     </div>

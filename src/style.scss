@@ -106,7 +106,7 @@
   justify-content: center;
 
   .container {
-    border: 1px solid white;
+    border: 1px solid black;
     border-radius: 10px;
     width: 90%;
     height: 90%;
@@ -141,6 +141,7 @@
           display: flex;
           align-items: center;
           gap: 10px;
+          width: fit-content;
 
           img {
             background-color: #ddddf7;
@@ -337,6 +338,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        outline: black;
 
         input {
           width: 100%;
